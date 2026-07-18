@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claim your listing — CareCheck BC</title>
+<meta name="description" content="Licensed child care providers: claim your free CareCheck BC listing to add contact details, program information, and current openings.">
+<link rel="canonical" href="https://carecheckbc.netlify.app/claim/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/styles.css">
+
+</head>
+<body>
+<div class="sample-banner">You are viewing sample demonstration data. Real provincial data has not been imported yet.</div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">Care<span class="brand-check">Check</span> BC</a>
+    <nav class="site-nav">
+      <a href="/about-the-data/">About the data</a>
+      <a href="/claim/">For providers</a>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Claim your facility listing</h2>
+    <p class="section-sub">Free for licensed providers. Once verified, you can add your
+    contact details, website, program description, and current openings to your listing.</p>
+    <div class="form-card">
+      <form name="claim-listing" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/claim/thanks/">
+        <input type="hidden" name="form-name" value="claim-listing">
+        <p style="display:none"><label>Leave this empty: <input name="bot-field"></label></p>
+        <div class="form-field">
+          <label for="facility">Facility name</label>
+          <input id="facility" name="facility" type="text" required>
+        </div>
+        <div class="form-field">
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" required>
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required>
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone (optional)</label>
+          <input id="phone" name="phone" type="tel">
+        </div>
+        <div class="form-field">
+          <label for="message">Anything you'd like updated on your listing?</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+        </div>
+        <button class="btn" type="submit">Submit claim</button>
+        <p class="form-note">We verify claims against the licence record before making
+        changes, usually within 2 business days.</p>
+      </form>
+    </div>
+  </div>
+</section>
+<script>
+  // Pre-fill facility name from ?facility= slug
+  (function () {
+    var p = new URLSearchParams(window.location.search).get("facility");
+    if (p) document.getElementById("facility").value = p.replace(/-/g, " ");
+  })();
+</script>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-disclaimer">
+      CareCheck BC republishes public licensing and inspection information for
+      convenience. It is not affiliated with the Province of BC or any health
+      authority. Always verify details with the facility and the
+      <a href="https://www2.gov.bc.ca/gov/content/family-social-supports/caring-for-young-children">official provincial resources</a>
+      before making care decisions.
+    </div>
+    <div>&copy; 2026 CareCheck BC · <a href="/about-the-data/">Sources &amp; methodology</a></div>
+  </div>
+</footer>
+</body>
+</html>

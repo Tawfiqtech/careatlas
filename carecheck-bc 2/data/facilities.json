@@ -1,0 +1,362 @@
+{
+  "meta": {
+    "sample_data": true,
+    "last_updated": "2026-07-17",
+    "sources": [
+      "BC Data Catalogue — Child Care Map Data (childcare_locations.csv)",
+      "Vancouver Coastal Health — Child Care Facility Inspection Reports",
+      "Fraser Health — Child Care Facility Inspection Reports"
+    ]
+  },
+  "facilities": [
+    {
+      "id": "sample-0001",
+      "slug": "little-cedars-family-child-care-vancouver",
+      "name": "Little Cedars Family Child Care",
+      "care_type": "Family Child Care",
+      "address": "2245 W 14th Ave",
+      "city": "Vancouver",
+      "postal": "V6K 2W1",
+      "health_authority": "Vancouver Coastal Health",
+      "capacity": 7,
+      "ages": "0 to 12 years",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-03-11",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        },
+        {
+          "date": "2025-02-27",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0002",
+      "slug": "sunrise-group-child-care-centre-burnaby",
+      "name": "Sunrise Group Child Care Centre",
+      "care_type": "Group Child Care (Under 36 Months)",
+      "address": "4820 Kingsway",
+      "city": "Burnaby",
+      "postal": "V5H 4P1",
+      "health_authority": "Fraser Health",
+      "capacity": 24,
+      "ages": "Under 36 months",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-01-22",
+          "type": "Routine",
+          "status": "followup",
+          "infractions": [
+            { "category": "Staffing", "note": "Staff-to-child ratio not maintained during outdoor play period." },
+            { "category": "Records", "note": "Two staff records missing current first aid certificates." }
+          ],
+          "report_url": ""
+        },
+        {
+          "date": "2026-03-05",
+          "type": "Follow-up",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        },
+        {
+          "date": "2025-01-30",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0003",
+      "slug": "maple-lane-preschool-surrey",
+      "name": "Maple Lane Preschool",
+      "care_type": "Preschool (30 Months to School Age)",
+      "address": "15340 88 Ave",
+      "city": "Surrey",
+      "postal": "V3S 2R9",
+      "health_authority": "Fraser Health",
+      "capacity": 20,
+      "ages": "30 months to school age",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-04-14",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0004",
+      "slug": "harbour-view-multi-age-care-richmond",
+      "name": "Harbour View Multi-Age Care",
+      "care_type": "Multi-Age Child Care",
+      "address": "7960 Alderbridge Way",
+      "city": "Richmond",
+      "postal": "V6X 2A5",
+      "health_authority": "Vancouver Coastal Health",
+      "capacity": 8,
+      "ages": "0 to 12 years",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2025-11-19",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        },
+        {
+          "date": "2024-11-07",
+          "type": "Routine",
+          "status": "followup",
+          "infractions": [
+            { "category": "Physical Facility", "note": "Fence gate latch in outdoor play area required repair." }
+          ],
+          "report_url": ""
+        },
+        {
+          "date": "2024-12-02",
+          "type": "Follow-up",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0005",
+      "slug": "bright-steps-out-of-school-care-coquitlam",
+      "name": "Bright Steps Out-of-School Care",
+      "care_type": "Group Child Care (School Age)",
+      "address": "1120 Austin Ave",
+      "city": "Coquitlam",
+      "postal": "V3K 3P4",
+      "health_authority": "Fraser Health",
+      "capacity": 30,
+      "ages": "School age",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-02-09",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0006",
+      "slug": "wildflower-family-child-care-north-vancouver",
+      "name": "Wildflower Family Child Care",
+      "care_type": "Family Child Care",
+      "address": "331 E 12th St",
+      "city": "North Vancouver",
+      "postal": "V7L 2J6",
+      "health_authority": "Vancouver Coastal Health",
+      "capacity": 7,
+      "ages": "0 to 12 years",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-05-28",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        },
+        {
+          "date": "2025-05-15",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0007",
+      "slug": "cedar-grove-group-child-care-vancouver",
+      "name": "Cedar Grove Group Child Care",
+      "care_type": "Group Child Care (30 Months to School Age)",
+      "address": "990 Commercial Dr",
+      "city": "Vancouver",
+      "postal": "V5L 3W7",
+      "health_authority": "Vancouver Coastal Health",
+      "capacity": 25,
+      "ages": "30 months to school age",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-06-03",
+          "type": "Routine",
+          "status": "followup",
+          "infractions": [
+            { "category": "Policies & Procedures", "note": "Emergency drill records not up to date." }
+          ],
+          "report_url": ""
+        },
+        {
+          "date": "2025-06-10",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0008",
+      "slug": "tiny-anchors-in-home-multi-age-care-delta",
+      "name": "Tiny Anchors In-Home Multi-Age Care",
+      "care_type": "In-Home Multi-Age Child Care",
+      "address": "5215 Ladner Trunk Rd",
+      "city": "Delta",
+      "postal": "V4K 1W4",
+      "health_authority": "Fraser Health",
+      "capacity": 8,
+      "ages": "0 to 12 years",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-01-15",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0009",
+      "slug": "meadowbrook-preschool-langley",
+      "name": "Meadowbrook Preschool",
+      "care_type": "Preschool (30 Months to School Age)",
+      "address": "20560 Fraser Hwy",
+      "city": "Langley",
+      "postal": "V3A 4G2",
+      "health_authority": "Fraser Health",
+      "capacity": 16,
+      "ages": "30 months to school age",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2025-10-08",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0010",
+      "slug": "salmonberry-family-child-care-new-westminster",
+      "name": "Salmonberry Family Child Care",
+      "care_type": "Family Child Care",
+      "address": "412 Sixth St",
+      "city": "New Westminster",
+      "postal": "V3L 3B1",
+      "health_authority": "Fraser Health",
+      "capacity": 7,
+      "ages": "0 to 12 years",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-04-30",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        },
+        {
+          "date": "2025-04-22",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0011",
+      "slug": "orca-cove-group-child-care-vancouver",
+      "name": "Orca Cove Group Child Care",
+      "care_type": "Group Child Care (Under 36 Months)",
+      "address": "1633 Yew St",
+      "city": "Vancouver",
+      "postal": "V6K 3E6",
+      "health_authority": "Vancouver Coastal Health",
+      "capacity": 12,
+      "ages": "Under 36 months",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2026-02-18",
+          "type": "Routine",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    },
+    {
+      "id": "sample-0012",
+      "slug": "stonebridge-out-of-school-care-surrey",
+      "name": "Stonebridge Out-of-School Care",
+      "care_type": "Group Child Care (School Age)",
+      "address": "6350 142 St",
+      "city": "Surrey",
+      "postal": "V3X 1B8",
+      "health_authority": "Fraser Health",
+      "capacity": 28,
+      "ages": "School age",
+      "phone": "",
+      "website": "",
+      "inspections": [
+        {
+          "date": "2025-12-04",
+          "type": "Routine",
+          "status": "followup",
+          "infractions": [
+            { "category": "Records", "note": "Immunization records incomplete for three enrolled children." },
+            { "category": "Physical Facility", "note": "Cleaning supplies stored in unlocked cabinet accessible to children." }
+          ],
+          "report_url": ""
+        },
+        {
+          "date": "2026-01-09",
+          "type": "Follow-up",
+          "status": "compliant",
+          "infractions": [],
+          "report_url": ""
+        }
+      ]
+    }
+  ]
+}
