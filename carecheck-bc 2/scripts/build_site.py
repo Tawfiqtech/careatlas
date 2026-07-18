@@ -30,7 +30,10 @@ DIST = ROOT / "dist"
 
 SITE_NAME = "CareCheck BC"
 SITE_TAGLINE = "Licensed child care in Metro Vancouver, with the inspection record attached."
-# Set this to your real domain once connected on Netlify (no trailing slash).
+# Canonical URLs + sitemap need the site's real address.
+# Netlify sets the URL env var automatically at build time, and updates it when
+# you attach a custom domain — so canonicals stay correct without code changes.
+# The fallback is only used for local builds.
 BASE_URL = os.environ.get("URL", "https://careatlas.netlify.app").rstrip("/")
 
 
@@ -54,6 +57,13 @@ def facility_stamp(fac: dict) -> str:
     if latest.get("status") == "followup":
         return '<span class="stamp stamp-flag">Follow-up required</span>'
     return '<span class="stamp stamp-ok">Compliant</span>'
+
+
+def vacancy_badge(fac: dict) -> str:
+    """Small inline badge when the province reports an opening."""
+    if not fac.get("vacancies"):
+        return ""
+    return ' <span class="badge-vacancy">Opening reported</span>'
 
 
 def fmt_date(iso: str) -> str:
@@ -106,6 +116,9 @@ def page(title: str, body: str, *, description: str, canonical_path: str,
 <footer class="site-footer">
   <div class="wrap">
     <div class="foot-disclaimer">
+      Contains information licensed under the
+      <a href="https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61">Open
+      Government Licence &ndash; British Columbia</a>.
       {SITE_NAME} republishes public licensing and inspection information for
       convenience. It is not affiliated with the Province of BC or any health
       authority. Always verify details with the facility and the
@@ -123,8 +136,8 @@ def page(title: str, body: str, *, description: str, canonical_path: str,
 
 def build_home(facilities: list, cities: dict, meta: dict) -> str:
     total = len(facilities)
-    total_spaces = sum(f.get("capacity") or 0 for f in facilities)
-    inspected = sum(1 for f in facilities if f.get("inspections"))
+    with_vacancy = sum(1 for f in facilities if f.get("vacancies"))
+    city_count = len(cities)
     updated = fmt_date(meta.get("last_updated", ""))
 
     city_cards = "\n".join(
@@ -148,8 +161,8 @@ def build_home(facilities: list, cities: dict, meta: dict) -> str:
     </div>
     <div class="stats">
       <div class="stat"><div class="stat-num">{total:,}</div><div class="stat-label">Licensed facilities</div></div>
-      <div class="stat"><div class="stat-num">{total_spaces:,}</div><div class="stat-label">Licensed spaces</div></div>
-      <div class="stat"><div class="stat-num">{inspected:,}</div><div class="stat-label">With inspection reports</div></div>
+      <div class="stat"><div class="stat-num">{with_vacancy:,}</div><div class="stat-label">Reporting an opening</div></div>
+      <div class="stat"><div class="stat-num">{city_count:,}</div><div class="stat-label">Cities covered</div></div>
       <div class="stat"><div class="stat-num">{escape(updated)}</div><div class="stat-label">Data updated</div></div>
     </div>
   </div>
@@ -178,10 +191,10 @@ def build_home(facilities: list, cities: dict, meta: dict) -> str:
 def build_city(city: str, facs: list, sample: bool) -> str:
     rows = "\n".join(
         f'<a class="facility-row" href="/facility/{f["slug"]}/">'
-        f'<span class="f-name">{escape(f["name"])}</span>'
+        f'<span class="f-name">{escape(f["name"])}{vacancy_badge(f)}</span>'
         f'{facility_stamp(f)}'
         f'<span class="f-meta">{escape(f.get("care_type", ""))} · {escape(f.get("address", ""))}'
-        f' · Capacity {f.get("capacity") or "—"}</span>'
+        f'{" · " + escape("; ".join(f.get("services", []))) if f.get("services") else ""}</span>'
         f'</a>'
         for f in sorted(facs, key=lambda x: x["name"])
     )
@@ -211,6 +224,58 @@ def build_city(city: str, facs: list, sample: bool) -> str:
 
 def build_facility(f: dict, sample: bool) -> str:
     inspections = sorted(f.get("inspections", []), key=lambda i: i.get("date", ""), reverse=True)
+
+    # Contact cell — only rendered when the province actually publishes a phone
+    if f.get("phone"):
+        contact_cell = (
+            '<div class="licence-cell"><div class="lc-label">Phone</div>'
+            f'<div class="lc-value"><a href="tel:{escape(f["phone"])}">{escape(f["phone"])}</a></div></div>'
+        )
+    else:
+        contact_cell = ""
+
+    # Vacancy panel — the province publishes these flags daily
+    if f.get("vacancies"):
+        items = "".join(f"<li>{escape(v)}</li>" for v in f["vacancies"])
+        asof = (f' <span class="vac-asof">as reported {escape(fmt_date(f["vacancy_updated"]))}</span>'
+                if f.get("vacancy_updated") else "")
+        vacancy_panel = f"""
+    <div class="vacancy-panel">
+      <div class="vac-head">Openings reported{asof}</div>
+      <ul class="vac-list">{items}</ul>
+      <p class="vac-note">Openings are self-reported by the facility to the province and
+      change fast. Call to confirm before you count on a spot.</p>
+    </div>"""
+    elif f.get("vacancy_updated"):
+        vacancy_panel = f"""
+    <div class="vacancy-panel vacancy-none">
+      <div class="vac-head">No openings reported</div>
+      <p class="vac-note">Last reported to the province on
+      {escape(fmt_date(f["vacancy_updated"]))}. Waitlists are common — it's still worth calling.</p>
+    </div>"""
+    else:
+        vacancy_panel = ""
+
+    # Detail panel — services, languages, features, links
+    blocks = []
+    if f.get("services"):
+        blocks.append("<div class=\"detail-block\"><h3>Ages served</h3><ul>"
+                      + "".join(f"<li>{escape(s)}</li>" for s in f["services"]) + "</ul></div>")
+    if f.get("languages"):
+        blocks.append("<div class=\"detail-block\"><h3>Languages spoken</h3><ul>"
+                      + "".join(f"<li>{escape(l)}</li>" for l in f["languages"]) + "</ul></div>")
+    if f.get("features"):
+        blocks.append("<div class=\"detail-block\"><h3>Programs & hours</h3><ul>"
+                      + "".join(f"<li>{escape(x)}</li>" for x in f["features"]) + "</ul></div>")
+    links = []
+    if f.get("website"):
+        links.append(f'<li><a href="{escape(f["website"])}" rel="nofollow noopener">Facility website</a></li>')
+    if f.get("inspection_url"):
+        links.append(f'<li><a href="{escape(f["inspection_url"])}" rel="nofollow noopener">'
+                     f'Official inspection reports ({escape(f.get("health_authority") or "health authority")})</a></li>')
+    if links:
+        blocks.append('<div class="detail-block"><h3>Official links</h3><ul>' + "".join(links) + "</ul></div>")
+    detail_panel = f'<div class="detail-grid">{"".join(blocks)}</div>' if blocks else ""
 
     entries = []
     for ins in inspections:
@@ -260,11 +325,12 @@ def build_facility(f: dict, sample: bool) -> str:
       {escape(f["city"])} {escape(f.get("postal", ""))}</p>
     <div class="licence-strip">
       <div class="licence-cell"><div class="lc-label">Licence status</div><div class="lc-value">Licensed</div></div>
-      <div class="licence-cell"><div class="lc-label">Care type</div><div class="lc-value">{escape(f.get("care_type", "—"))}</div></div>
-      <div class="licence-cell"><div class="lc-label">Capacity</div><div class="lc-value">{f.get("capacity") or "—"} children</div></div>
-      <div class="licence-cell"><div class="lc-label">Ages</div><div class="lc-value">{escape(f.get("ages") or "—")}</div></div>
-      <div class="licence-cell"><div class="lc-label">Health authority</div><div class="lc-value">{escape(f.get("health_authority", "—"))}</div></div>
+      <div class="licence-cell"><div class="lc-label">Care type</div><div class="lc-value">{escape(f.get("care_type") or "—")}</div></div>
+      <div class="licence-cell"><div class="lc-label">Health authority</div><div class="lc-value">{escape(f.get("health_authority") or "—")}</div></div>
+      {contact_cell}
     </div>
+    {vacancy_panel}
+    {detail_panel}
   </div>
 </section>
 <section class="wrap ledger">
@@ -280,12 +346,13 @@ def build_facility(f: dict, sample: bool) -> str:
 </section>
 """
     latest = latest_inspection(f)
-    desc = (
-        f"Before you tour {f['name']} in {f['city']}, read its official health authority "
-        f"inspection history. Licensed {f.get('care_type', 'child care')}, capacity "
-        f"{f.get('capacity') or '—'}. "
-        + (f"Most recent inspection: {fmt_date(latest['date'])}." if latest else "Licence details on record.")
-    )
+    desc_bits = [f"Before you tour {f['name']} in {f['city']}, check its licence details and "
+                 f"health authority inspection record."]
+    if f.get("vacancies"):
+        desc_bits.append("Currently reporting an opening.")
+    if latest:
+        desc_bits.append(f"Most recent inspection: {fmt_date(latest['date'])}.")
+    desc = " ".join(desc_bits)
     schema = {
         "@context": "https://schema.org",
         "@type": "ChildCare",
