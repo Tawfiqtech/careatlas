@@ -16,6 +16,7 @@ Deps: Python 3.8+ standard library only (works on Netlify's build image).
 """
 
 import json
+import os
 import re
 import shutil
 from datetime import date
