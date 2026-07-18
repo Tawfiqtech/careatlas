@@ -30,7 +30,7 @@ DIST = ROOT / "dist"
 SITE_NAME = "CareCheck BC"
 SITE_TAGLINE = "Licensed child care in Metro Vancouver, with the inspection record attached."
 # Set this to your real domain once connected on Netlify (no trailing slash).
-BASE_URL = "https://carecheckbc.netlify.app"
+BASE_URL = "https://careatlas.netlify.app"
 
 
 # ---------------------------------------------------------------- helpers
