@@ -1,0 +1,18 @@
+[build]
+  command = "python3 scripts/build_site.py"
+  publish = "dist"
+
+# Netlify Forms: the claim form in dist/claim/index.html has data-netlify="true"
+# and is detected automatically at deploy time.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/search-index.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
